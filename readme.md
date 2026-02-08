@@ -276,7 +276,7 @@ remove_outliers(technique='iqr',
 
 | Parameter | Type | Default | Description |
 |----------|------|--------|-------------|
-| scaling_method | str | 'standard' | Scaling method to apply ('standard', 'minmax', 'robust', etc.) |
+| scaling_method | str | 'standard' | Scaling method to apply ('standard', 'min_max', 'robust') |
 | before_after | bool | True | Whether to display feature distributions before and after scaling |
 | kde_plot | bool | True | Whether to display KDE plots to visualize feature distributions |
 | fit | bool | True | Whether to fit the scaler to the training data (set False to only transform) |
