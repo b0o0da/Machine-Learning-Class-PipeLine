@@ -8,9 +8,9 @@ It is designed to **reduce repetitive coding** and **accelerate experimentation*
 
 ## 👤 Author
 
-**Abdelrahman Ahmed**  
+<h1 align="center">__Abdelrahman Ahmed__</h1  
 Faculty of Computer Science – Data Science Department  
-Helwan University
+Helwan  National University
 
 ---
 
