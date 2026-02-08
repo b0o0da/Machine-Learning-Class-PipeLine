@@ -4,13 +4,11 @@
 This project aims to develop a **reusable, end-to-end Machine Learning pipeline** that automates data preprocessing, feature engineering, and model evaluation.  
 It is designed to **reduce repetitive coding** and **accelerate experimentation** for both classification and regression tasks.
 
----
-
 ## 👤 Author
 
-## <h1>__Abdelrahman Arafa__</h1>
-__Faculty of Computer Science – Data Science Department Helwan  National University__
----
+## Abdelrahman Arafa
+Faculty of Computer Science – Data Science Department Helwan  National University
+
 
 
 
