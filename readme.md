@@ -136,6 +136,7 @@ display_data(
 
 ## <h1 align="center">__null_values_shows()__</h1>
 <p align="center" , style="font-size:20px;">
+
 | Parameter | Type | Default | Description |
 |----------|------|--------|-------------|
 | figsize | tuple | (10, 6) | Figure size for plots (width, height) |
