@@ -1,4 +1,4 @@
-## <h1 align="center">__Machine Learning Pipeline Class__</h1>
+## <h1 align="center">__OOP Machine Learning Pipeline__</h1>
 ## 🎯 Project Goal
 
 This project aims to develop a **reusable, end-to-end Machine Learning pipeline** that automates data preprocessing, feature engineering, and model evaluation.  
@@ -8,11 +8,11 @@ It is designed to **reduce repetitive coding** and **accelerate experimentation*
 
 ## 👤 Author
 
-<h1 align="center">__Abdelrahman Ahmed__</h1  
-Faculty of Computer Science – Data Science Department  
-Helwan  National University
-
+## <h1>__Abdelrahman Arafa__</h1>
+__Faculty of Computer Science – Data Science Department Helwan  National University__
 ---
+
+
 
 
 ## __Overview__
