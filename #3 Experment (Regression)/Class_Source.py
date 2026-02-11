@@ -74,7 +74,7 @@ class MachineLearning:
         unique=False,
         unique_values_size=10,
         most_frequent=True
-    ):
+                            ):
         data_dict = {}
 
         if self.df is not None:
@@ -414,7 +414,7 @@ class MachineLearning:
                             df[col].fillna(df[col].mean(), inplace=True)
                         elif col  in numeric_cols and impute_strategy =="median":
                             df[col].fillna(df[col].median(), inplace=True)
-                        elif col in categorical_cols and impute_strategy =="mode":
+                        elif col in categorical_cols:
                             df[col].fillna(df[col].mode()[0], inplace=True)
                             
                     elif dtype_specific == "numeric":
@@ -1066,13 +1066,14 @@ class MachineLearning:
         is_classification = scoring in CLASSIFICATION_METRICS or scoring == "neg_log_loss"
 
         if ascending is None:
-            ascending = is_negative
+            ascending = is_negative  # errors → smaller is better
 
         results = {}
         best_estimators = {}
 
         for name, model_info in models_dict.items():
 
+            # لو grid search مفعل
             if grid_search:
                 model = model_info["model"]
                 param_grid = model_info.get("params", {})
@@ -1123,6 +1124,7 @@ class MachineLearning:
                     print(f"  CV fold scores: {real_scores}")
                     print(f"  Mean: {real_scores.mean():.4f}, Std: {real_scores.std():.4f}")
 
+
         sorted_results = dict(
             sorted(results.items(), key=lambda x: x[1], reverse=not ascending)
         )
@@ -1136,7 +1138,7 @@ class MachineLearning:
 
         print(f"\nBest Model: {best_model_name}")
 
-        return best_model, sorted_results    
+        return best_model, sorted_results
     # ---------- model evaluation ----------
     def model_Training_evaluation(self , models_dict , classification=False,accuracy=True , precision=True , recall=True , f1_score=True , Mean_Squared_Error=True , Mean_Absolute_Error=True , R2_Score=True , Mean_Absolute_Percentage_Error=True , Root_Mean_Squared_Error=True , confusion_matrix=True , classification_report=True):
         from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, accuracy_score, precision_score, recall_score, f1_score, confusion_matrix as cm_func , mean_absolute_percentage_error

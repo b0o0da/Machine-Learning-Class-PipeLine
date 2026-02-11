@@ -8,7 +8,7 @@ from scipy import stats
 from sklearn.feature_selection import VarianceThreshold
 from sklearn.preprocessing import OrdinalEncoder , StandardScaler , RobustScaler , MinMaxScaler
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_score ,GridSearchCV
 from imblearn.over_sampling import SMOTE
 from imblearn.under_sampling import RandomUnderSampler
 from imblearn.combine import SMOTEENN
@@ -1040,7 +1040,6 @@ class MachineLearning:
         grid_search=False,
         verbose=0
     ):
-        from sklearn.model_selection import cross_val_score, GridSearchCV
 
         self.print_block("MODEL SELECTION")
 
