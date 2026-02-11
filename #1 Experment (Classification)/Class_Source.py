@@ -1036,9 +1036,11 @@ class MachineLearning:
         cv=5,
         n_jobs=-1,
         print_results=True,
-        ascending=None
+        ascending=None,
+        grid_search=False,
+        verbose=0
     ):
-        from sklearn.model_selection import cross_val_score
+        from sklearn.model_selection import cross_val_score, GridSearchCV
 
         self.print_block("MODEL SELECTION")
 
@@ -1057,38 +1059,72 @@ class MachineLearning:
             "f1", "f1_macro", "f1_micro", "f1_weighted",
             "roc_auc", "roc_auc_ovr", "roc_auc_ovo",
             "roc_auc_ovr_weighted", "roc_auc_ovo_weighted",
-            "average_precision",
-            "average_precision"}
-            
+            "average_precision"
+        }
+
         is_negative = scoring in NEGATIVE_METRICS
         is_classification = scoring in CLASSIFICATION_METRICS or scoring == "neg_log_loss"
 
         if ascending is None:
-            ascending = is_negative  # errors: smaller is better
+            ascending = is_negative  # errors → smaller is better
 
         results = {}
+        best_estimators = {}
 
-        for name, model in models_dict.items():
-            scores = cross_val_score(
-                model,
-                self.X_train,
-                self.y_train,
-                scoring=scoring,
-                cv=cv,
-                n_jobs=n_jobs
-            )
+        for name, model_info in models_dict.items():
 
-            # real score (negative metrics)
-            real_scores = -scores if is_negative else scores
-            results[name] = real_scores.mean()
-            real_scores = -scores if is_negative else scores
-            if print_results:
-                metric_name = scoring.replace("neg_", "")
-                print(f"\n{name} | {metric_name}:")
-                print(f"  CV fold scores: {real_scores}")
-                print(f"  Mean: {real_scores.mean():.4f}, Std: {real_scores.std():.4f}")
+            # لو grid search مفعل
+            if grid_search:
+                model = model_info["model"]
+                param_grid = model_info.get("params", {})
 
-        # sorting
+                grid = GridSearchCV(
+                    estimator=model,
+                    param_grid=param_grid,
+                    scoring=scoring,
+                    cv=cv,
+                    n_jobs=n_jobs,
+                    verbose=verbose
+                )
+
+                grid.fit(self.X_train, self.y_train)
+
+                best_model = grid.best_estimator_
+                best_score = grid.best_score_
+
+                real_score = -best_score if is_negative else best_score
+
+                results[name] = real_score
+                best_estimators[name] = best_model
+
+                if print_results:
+                    print(f"\n{name} (GridSearch)")
+                    print(f"Best Params: {grid.best_params_}")
+                    print(f"Best CV Score: {real_score:.4f}")
+
+            else:
+                model = model_info  # موديل عادي
+
+                scores = cross_val_score(
+                    model,
+                    self.X_train,
+                    self.y_train,
+                    scoring=scoring,
+                    cv=cv,
+                    n_jobs=n_jobs
+                )
+
+                real_scores = -scores if is_negative else scores
+                results[name] = real_scores.mean()
+                best_estimators[name] = model
+
+                if print_results:
+                    metric_name = scoring.replace("neg_", "")
+                    print(f"\n{name} | {metric_name}:")
+                    print(f"  CV fold scores: {real_scores}")
+                    print(f"  Mean: {real_scores.mean():.4f}, Std: {real_scores.std():.4f}")
+
+
         sorted_results = dict(
             sorted(results.items(), key=lambda x: x[1], reverse=not ascending)
         )
@@ -1097,10 +1133,12 @@ class MachineLearning:
         for name, score in sorted_results.items():
             print(f"{name}: {score:.4f}")
 
-        best_model = next(iter(sorted_results))
-        print(f"\nBest Model: {best_model}")
+        best_model_name = next(iter(sorted_results))
+        best_model = best_estimators[best_model_name]
 
-        return best_model, sorted_results    
+        print(f"\nBest Model: {best_model_name}")
+
+        return best_model, sorted_results
     # ---------- model evaluation ----------
     def model_Training_evaluation(self , models_dict , classification=False,accuracy=True , precision=True , recall=True , f1_score=True , Mean_Squared_Error=True , Mean_Absolute_Error=True , R2_Score=True , Mean_Absolute_Percentage_Error=True , Root_Mean_Squared_Error=True , confusion_matrix=True , classification_report=True):
         from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, accuracy_score, precision_score, recall_score, f1_score, confusion_matrix as cm_func , mean_absolute_percentage_error

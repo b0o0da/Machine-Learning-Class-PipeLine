@@ -455,14 +455,16 @@ pca(apply=False,
 
 <p align="center" , style="font-size:20px;">
 
-| Parameter | Type | Default | Description |
-|----------|------|--------|-------------|
-| models_dict | dict | None | Dictionary of models to evaluate, e.g., {"Linear Regression": lr_model, "RF": rf_model} |
-| scoring | str | 'r2' | Metric used to evaluate models (e.g., 'r2', 'accuracy', 'neg_mean_squared_error') |
-| cv | int | 5 | Number of cross-validation folds |
-| n_jobs | int | -1 | Number of parallel jobs for cross-validation (-1 uses all cores) |
-| print_results | bool | True | Whether to print cross-validation scores and summary |
-| ascending | bool or None | None | Whether to sort models ascending (errors) or descending (scores); default auto based on metric |
+| Parameter     | Type         | Default | Description                                                                                                                                              |
+| ------------- | ------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| models_dict   | dict         | None    | Dictionary of models to evaluate. Without GridSearch: `{"Linear Regression": lr_model}`. With GridSearch: `{"LR": {"model": lr_model, "params": {...}}}` |
+| scoring       | str          | 'r2'    | Metric used to evaluate models (e.g., `'r2'`, `'accuracy'`, `'neg_mean_squared_error'`)                                                                  |
+| cv            | int          | 5       | Number of cross-validation folds                                                                                                                         |
+| n_jobs        | int          | -1      | Number of parallel jobs for cross-validation (-1 uses all cores)                                                                                         |
+| print_results | bool         | True    | Whether to print cross-validation scores and summary                                                                                                     |
+| ascending     | bool or None | None    | Whether to sort models ascending (errors) or descending (scores); default auto-detected based on metric                                                  |
+| grid_search   | bool         | False   | If True, applies GridSearchCV to each model using the provided parameter grid                                                                            |
+| verbose       | int          | 0       | Controls the verbosity level of GridSearchCV (0 = no output, higher values = more detailed progress logs)                                                |
 
 </p>
 
@@ -728,4 +730,18 @@ project.model_visualization(models_dict=models_dict , classification=True)
 * warnings
 * joblib
 
----
+
+
+## 📦 Installation
+
+```python
+pip install pandas
+pip install numpy
+pip install matplotlib
+pip install seaborn
+pip install scikit-learn
+pip install imbalanced-learn
+pip install missingno
+pip install scipy
+pip install joblib
+```
